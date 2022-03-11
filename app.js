@@ -41,7 +41,7 @@ app.get('/artist-search', async (req, res) => {
     try {
         const artist = req.query.artist;
         const data = await spotifyApi.searchArtists(artist);
-        console.log('The received data from the API: ', data.body.artists.items);    
+        //console.log('The received data from the API: ', data.body.artists.items);    
         res.render('artist-search-results', { artists: data.body.artists.items });
     } catch (error) {
         console.error('The error while searching artists occurred: ', error)
@@ -53,19 +53,28 @@ app.get('/albums/:artistId', async (req, res) => {
         // due to line 4 in artist-search-results.hbs we pass here the id:
         // req.params ALWAYS returns an object
         const artistId = req.params.artistId;
-        /* 
-        console.log(artistId)
-        const { artistId2 } = req.params
-        console.log(artistId2)
-         */
+        //this works too
+        //const { artistId } = req.params
+         
         const albums = await spotifyApi.getArtistAlbums(artistId);
-        console.log('Artist albums', albums.body.items);
+        //console.log('Artist albums', albums.body.items);
         res.render('albums', { albums: albums.body.items });
          
     } catch (error) {
         console.error(error);
     };
 });
+
+app.get('/tracks/:albumId', async (req, res) => {
+    try {
+        const albumId = req.params.albumId;
+        const tracks = await spotifyApi.getAlbumTracks(albumId);
+        //console.log('Album tracks: ', tracks.body.items);
+        res.render('tracks', {tracks: tracks.body.items});
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 
 app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
