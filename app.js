@@ -12,6 +12,9 @@ app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
+// Register the location for handlebars partials here:
+hbs.registerPartials(__dirname + "/views/partials");
+
 app.use(express.urlencoded({ extended: true }));
 
 // setting the spotify-api goes here:
